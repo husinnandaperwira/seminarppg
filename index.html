@@ -45,6 +45,7 @@
       4.2_refleksi_penutup.md
     </a>
   </nav>
+  <div class="read-progress" aria-hidden="true"><span id="readProgressBar"></span></div>
 </header>
 
 <!-- ===================== HERO / BERANDA ===================== -->
@@ -246,6 +247,9 @@
     <div class="block-head"><span class="block-tag">C</span><h3>Langkah-Langkah Konkret Mewujudkan Visi</h3></div>
     <p>Visi tanpa langkah nyata hanya akan menjadi wacana. Berikut enam langkah konkret dan berkelanjutan yang dirancang untuk mewujudkan visi pada bagian A dan B.</p>
 
+    <div class="accordion-toolbar">
+      <button type="button" class="toolbar-btn" data-toggle-group="steps-lk1">Buka semua</button>
+    </div>
     <div class="steps" id="steps-lk1">
       <button class="step" type="button" data-step="1">
         <div class="step-head">
@@ -438,6 +442,10 @@
     <div class="block-head"><span class="block-tag">git log</span><h3>Refleksi Enam Mata Kuliah Semester I</h3></div>
     <p>Setiap mata kuliah diuraikan sebagai satu simpul refleksi — ketuk untuk membuka refleksi 4C, analisis artefak, dan kaitan praktisnya.</p>
 
+    <nav class="mini-toc" id="miniToc-lk2" aria-label="Daftar mata kuliah Semester I"></nav>
+    <div class="accordion-toolbar">
+      <button type="button" class="toolbar-btn" data-toggle-group="commit-timeline">Buka semua</button>
+    </div>
     <div class="commit-timeline" id="commit-timeline">
 
       <!-- MK1 -->
@@ -707,6 +715,10 @@
     <div class="block-head"><span class="block-tag">git log</span><h3>Refleksi Detail per Mata Kuliah — Semester II</h3></div>
     <p>Ketuk untuk membuka refleksi 4C, analisis artefak, dan kaitan praktis tiap mata kuliah.</p>
 
+    <nav class="mini-toc" id="miniToc-lk2s2" aria-label="Daftar mata kuliah Semester II"></nav>
+    <div class="accordion-toolbar">
+      <button type="button" class="toolbar-btn" data-toggle-group="commit-timeline-s2">Buka semua</button>
+    </div>
     <div class="commit-timeline" id="commit-timeline-s2">
 
       <!-- MK1 -->
@@ -1147,6 +1159,14 @@
 </footer>
 
 <button class="to-top" id="toTop" aria-label="Kembali ke atas">↑</button>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button type="button" class="lightbox-close" aria-label="Tutup">×</button>
+  <div class="lightbox-content">
+    <img id="lightboxImg" src="" alt="">
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>

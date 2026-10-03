@@ -168,4 +168,90 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
+
+  /* ---------- Reading progress bar ---------- */
+  var progressBar = document.getElementById("readProgressBar");
+  if (progressBar) {
+    var updateProgress = function () {
+      var el = document.documentElement;
+      var max = el.scrollHeight - el.clientHeight;
+      var pct = max > 0 ? (el.scrollTop / max) * 100 : 0;
+      progressBar.style.width = pct + "%";
+    };
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    updateProgress();
+  }
+
+  /* ---------- Expand / collapse all (steps & commit-timeline) ---------- */
+  document.querySelectorAll("[data-toggle-group]").forEach(function (btn) {
+    var group = document.getElementById(btn.getAttribute("data-toggle-group"));
+    if (!group) return;
+    btn.addEventListener("click", function () {
+      var items = Array.prototype.slice.call(group.querySelectorAll(".step, .commit"));
+      var allOpen = items.every(function (it) { return it.classList.contains("is-open"); });
+      items.forEach(function (it) {
+        var body = it.querySelector(".step-body, .commit-body");
+        if (allOpen) {
+          it.classList.remove("is-open");
+          if (body) body.style.maxHeight = null;
+        } else {
+          it.classList.add("is-open");
+          if (body) body.style.maxHeight = body.scrollHeight + 60 + "px";
+        }
+      });
+      btn.textContent = allOpen ? "Buka semua" : "Tutup semua";
+    });
+  });
+
+  /* ---------- Mini table of contents (built from commit-timeline) ---------- */
+  document.querySelectorAll(".mini-toc").forEach(function (toc, tocIndex) {
+    var timeline = toc.nextElementSibling ? toc.nextElementSibling.nextElementSibling : null;
+    if (!timeline || !timeline.classList.contains("commit-timeline")) return;
+    timeline.querySelectorAll(".commit").forEach(function (commit, i) {
+      var id = "toc-" + tocIndex + "-" + i;
+      commit.id = id;
+      var hash = commit.querySelector(".commit-hash");
+      var msg = commit.querySelector(".commit-msg");
+      var a = document.createElement("a");
+      a.href = "#" + id;
+      a.textContent = (hash ? hash.textContent + " · " : "") + (msg ? msg.textContent : "");
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        commit.scrollIntoView({ behavior: "smooth", block: "start" });
+        var head = commit.querySelector(".commit-head");
+        if (head && !commit.classList.contains("is-open")) head.click();
+      });
+      toc.appendChild(a);
+    });
+  });
+
+  /* ---------- Lightbox for figures ---------- */
+  var lightbox = document.getElementById("lightbox");
+  var lightboxImg = document.getElementById("lightboxImg");
+  var lightboxCaption = document.getElementById("lightboxCaption");
+  if (lightbox && lightboxImg) {
+    var closeLightbox = function () {
+      lightbox.classList.remove("is-open");
+      lightboxImg.src = "";
+    };
+    document.querySelectorAll(".doc-figure img").forEach(function (img) {
+      img.addEventListener("click", function () {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        var caption = img.closest("figure");
+        caption = caption ? caption.querySelector("figcaption") : null;
+        lightboxCaption.textContent = caption ? caption.textContent : "";
+        lightbox.classList.add("is-open");
+      });
+    });
+    lightbox.addEventListener("click", function (e) {
+      if (e.target === lightbox || e.target.classList.contains("lightbox-close")) {
+        closeLightbox();
+      }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeLightbox();
+    });
+  }
 })();
