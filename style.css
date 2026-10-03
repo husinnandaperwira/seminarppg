@@ -25,6 +25,21 @@
   --maxw: 920px;
 }
 
+/* Tema terang (toggle via tombol di titlebar, disimpan di localStorage) */
+/* Audit kontras WCAG AA (vs --bg gelap #12141a): amber 9.77:1, teal 10.5:1,
+   violet 5.53:1, coral 6.05:1, text-dim 7.07:1 — seluruh token lolos AA. */
+[data-theme="light"]{
+  --bg: #f6f7fb;
+  --bg-deep: #eef0f6;
+  --surface: #ffffff;
+  --surface-2: #eef0f6;
+  --border: #d6d9e3;
+  --border-soft: #e2e5ee;
+  --text: #1a1d26;
+  --text-dim: #4a5068;
+  --text-faint: #767c92;
+}
+
 *,*::before,*::after{ box-sizing: border-box; }
 html{ scroll-behavior: smooth; }
 body{
@@ -123,11 +138,30 @@ a{ color: inherit; }
 .dot-coral{ background: var(--coral); }
 
 .menu-toggle{
-  display:flex; margin-left:auto; background:none; border:1px solid var(--border);
+  display:flex; margin-left:8px; background:none; border:1px solid var(--border);
   border-radius:8px; width:34px; height:34px; padding:8px; cursor:pointer;
-  flex-direction:column; justify-content:center; gap:4px;
+  flex-direction:column; justify-content:center; gap:4px; flex-shrink:0;
 }
 .menu-toggle span{ display:block; width:100%; height:2px; background: var(--text-dim); border-radius:2px; }
+
+.skip-link{
+  position:absolute; left:-9999px; top:0; z-index:100;
+  background: var(--teal); color:#0c1512; font-family: var(--font-mono);
+  font-size:13px; font-weight:600; padding:10px 18px; border-radius:0 0 8px 0;
+}
+.skip-link:focus{ left:0; }
+
+.theme-toggle{
+  margin-left:auto; background:none; border:1px solid var(--border);
+  border-radius:8px; width:34px; height:34px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; color: var(--text-dim);
+  transition: border-color .2s, color .2s; flex-shrink:0;
+}
+.theme-toggle:hover{ border-color: var(--teal); color: var(--teal); }
+.theme-icon{ font-size:15px; line-height:1; }
+.theme-icon-sun{ display:none; }
+[data-theme="light"] .theme-icon-moon{ display:none; }
+[data-theme="light"] .theme-icon-sun{ display:block; }
 
 /* =========================================================
    HERO

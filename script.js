@@ -1,6 +1,29 @@
 (function () {
   "use strict";
 
+  /* ---------- Theme toggle (dark/light) ---------- */
+  var THEME_KEY = "ppg-portfolio-theme";
+  var themeToggle = document.getElementById("themeToggle");
+  var applyTheme = function (theme) {
+    if (theme === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    if (themeToggle) themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+  };
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem(THEME_KEY); } catch (e) {}
+  applyTheme(savedTheme || "dark");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+      var current = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+      var next = current === "light" ? "dark" : "light";
+      applyTheme(next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+    });
+  }
+
   /* ---------- Typewriter role line ---------- */
   var roles = [
     "\"Frontend & Mobile Developer\"",
